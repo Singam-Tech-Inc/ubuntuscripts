@@ -1,0 +1,14 @@
+#!/bin/bash
+
+DEVICE="$1"
+STATE_DIR="/run/usb-slots"
+
+for SLOT in "$STATE_DIR"/usb*; do
+    [ -e "$SLOT" ] || continue
+    if /usr/bin/grep -q "$DEVICE" "$SLOT"; then
+       /usr/bin/rm -f "$SLOT"
+       exit 0
+    fi
+done
+
+exit 0
