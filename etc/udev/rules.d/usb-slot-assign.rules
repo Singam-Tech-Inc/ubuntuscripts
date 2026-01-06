@@ -1,0 +1,3 @@
+SUBSYSTEM=="block", ENV{DEVTYPE}=="disk", ACTION=="add", ATTRS{removable}=="1", PROGRAM+="/usr/bin/usb-slot-assign %k %E{ACTION}"
+
+SUBSYSTEM=="block", ENV{DEVTYPE}=="partition", ACTION=="change", PROGRAM+="/usr/bin/usb-slot-assign %k %E{ACTION}", SYMLINK+="usb%n"
