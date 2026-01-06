@@ -1,0 +1,26 @@
+#!/bin/bash
+
+DEVICE="$1"
+ACTION="$2"
+
+/usr/bin/logger "usb-slot-assign called for $DEVICE via AcTION=$ACTION"
+
+STATE_DIR="/run/usb-slots"
+
+/usr/bin/mkdir -p "$STATE_DIR"
+
+# Loop without seq (seq is not available in udev)
+i=1
+while [ $i -le 20 ]; do
+    SLOT="$STATE_DIR/usb$i"
+    if [ ! -e "$SLOT" ]; then
+        # Use full path for echo
+        /usr/bin/logger "usb-slot-assign assigning slot $i to $DEVICE via ACTION=$ACTION"
+        /usr/bin/printf "%s" "$DEVICE" > "$SLOT"
+        /usr/bin/printf "%s" "$i"
+        exit 0
+    fi
+    i=$((i+1))
+done
+
+exit 1
