@@ -1,0 +1,1 @@
+SUBSYSTEM=="block", ENV{DEVTYPE}=="disk", ACTION=="remove", PROGRAM+="/usr/bin/usb-slot-cleanup %k"
